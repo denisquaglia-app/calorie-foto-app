@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("androidx.navigation.safeargs.kotlin")
+    // id("androidx.navigation.safeargs.kotlin") ← RIMUOVI QUESTA
 }
 
 android {
@@ -11,25 +11,15 @@ android {
     defaultConfig {
         applicationId = "com.denisq.caloriefoto"
         minSdk = 21
-        targetSdk = 31  // Fix Android 12/MIUI
+        targetSdk = 31  // MIUI 12 OK
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        debug {
-            isMinifyEnabled = false
-        }
         release {
             isMinifyEnabled = false
-            isShrinkResources = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            signingConfig = signingConfigs.debug  // Debug key OK
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -48,7 +38,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     
     // CameraX
-    implementation("androidx.camera:camera-core:1.3.1")
     implementation("androidx.camera:camera-camera2:1.3.1")
     implementation("androidx.camera:camera-lifecycle:1.3.1")
     implementation("androidx.camera:camera-view:1.3.1")
