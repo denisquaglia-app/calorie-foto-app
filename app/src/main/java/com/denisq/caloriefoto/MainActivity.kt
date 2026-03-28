@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -37,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         
         viewFinder = findViewById(R.id.viewFinder)
+        
+        // Bottone foto
+        findViewById<Button>(R.id.btnTakePhoto).setOnClickListener { takePhoto() }
 
         if (allPermissionsGranted()) {
             startCamera()
@@ -67,30 +71,37 @@ class MainActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+    private fun takePhoto() {
+        val imageCapture = imageCapture ?: return
+        
+        val photoFile = File(externalMediaDirs.first(), 
+            "${SimpleDateFormat(FILENAME_FORMAT, Locale.ITALY).format(System.currentTimeMillis())}.jpg")
+        
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+        
+        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), 
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(exc: ImageCaptureException) {
+                    Log.e(TAG, "Foto fallita", exc)
+                }
+                
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    Toast.makeText(baseContext, "Foto salvata: ${photoFile.absolutePath}", 
+                        Toast.LENGTH_LONG).show()
+                    Log.d(TAG, "Foto salvata: ${photoFile.absolutePath}")
+                }
+            })
+    }
+
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
-        
-        val photoFile = File(externalMediaDirs.first(), "${SimpleDateFormat(FILENAME_FORMAT, Locale.ITALY).format(System.currentTimeMillis())}.jpg")
-        
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-        
-        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
-            override fun onError(exc: ImageCaptureException) {
-                Log.e(TAG, "Foto fallita", exc)
-            }
-            
-            override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                Toast.makeText(baseContext, "Foto salvata: ${photoFile.absolutePath}", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "Foto salvata: ${photoFile.absolutePath}")
-            }
-        })
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int, 
+        permissions: Array<String>, 
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
