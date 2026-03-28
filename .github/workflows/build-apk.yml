@@ -7,8 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Fix Node 20
+    permissions:
+      contents: read
+      packages: read
     
     steps:
     - uses: actions/checkout@v4
@@ -19,8 +20,8 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4  # v4 = Node 24
+    - name: Create Gradle Wrapper
+      run: gradle wrapper
       
     - name: Build APK
       run: ./gradlew assembleDebug
