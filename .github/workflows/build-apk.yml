@@ -1,4 +1,4 @@
-name: Build APK
+name: Build Release APK
 
 on:
   push:
@@ -17,11 +17,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         
+    - name: Setup Gradle Wrapper
+      run: gradle wrapper
+      
     - name: Build Release APK
       run: ./gradlew assembleRelease
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: CalorieFoto.apk
+        name: CalorieFoto-Release.apk
         path: app/build/outputs/apk/release/app-release-unsigned.apk
