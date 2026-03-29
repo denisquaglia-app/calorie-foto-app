@@ -37,6 +37,10 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     
+    // ML Kit Text Recognition (opzionale)
+    implementation("com.google.mlkit:vision-common-ktx:16.0.0")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    
     // CameraX
     implementation("androidx.camera:camera-camera2:1.3.1")
     implementation("androidx.camera:camera-lifecycle:1.3.1")
