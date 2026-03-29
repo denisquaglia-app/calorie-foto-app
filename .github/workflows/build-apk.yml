@@ -11,23 +11,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Java 17
+    - name: Setup Java
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '17'
         
-    - name: Generate Gradle Wrapper **PRIMA**
+    - name: Generate Wrapper
       run: gradle wrapper
       
-    - name: Clean project
+    - name: Clean
       run: ./gradlew clean
       
-    - name: Build APK
-      run: ./gradlew assembleDebug
+    - name: Build Release APK **MIGLIORE**
+      run: ./gradlew assembleRelease
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: CalorieFoto.apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: CalorieFoto-Release.apk
+        path: app/build/outputs/apk/release/app-release.apk
