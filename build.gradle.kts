@@ -1,14 +1,4 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
 }
-
-android {
-    namespace = "com.denisq.caloriefoto"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "com.denisq.caloriefoto"
-        minSdk = 21
-        targetSdk = 34
-        versionCode
