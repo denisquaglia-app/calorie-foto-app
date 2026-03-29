@@ -17,14 +17,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
         
-    - name: Clean Gradle
+    - name: Generate Gradle Wrapper **PRIMA**
+      run: gradle wrapper
+      
+    - name: Clean project
       run: ./gradlew clean
       
-    - name: Generate Wrapper
-      run: ./gradlew wrapper
-      
     - name: Build APK
-      run: ./gradlew assembleDebug --stacktrace
+      run: ./gradlew assembleDebug
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
