@@ -49,9 +49,6 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
     
-    // ML Kit Text Recognition (NO BOM, versioni fisse)
-    implementation("com.google.mlkit:vision-common:17.0.0")
-    implementation("com.google.mlkit:text-recognition:17.0.0")
     
     // Test
     testImplementation("junit:junit:4.13.2")
